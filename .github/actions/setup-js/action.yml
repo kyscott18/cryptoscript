@@ -1,0 +1,10 @@
+name: "Setup javascript env"
+runs:
+  using: composite
+  steps:
+    - name: Set bun
+    - uses: oven-sh/setup-bun@v1
+
+    - name: Install dependencies
+      shell: bash
+      run: bun install

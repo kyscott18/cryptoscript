@@ -6,3 +6,5 @@ bun lint
 bun typecheck
 
 bun run build
+
+bun run test:ci
