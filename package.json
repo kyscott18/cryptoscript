@@ -8,10 +8,9 @@
     "format": "biome format . --write",
     "lint": "biome check .",
     "lint:fix": "pnpm lint --apply",
-    "typecheck": "tsc --noEmit",
-    "test": "vitest",
-    "test:ci": "CI=true vitest --coverage",
-    "test:cov": "vitest --coverage"
+    "typecheck": "tsc",
+    "test": "vitest typecheck",
+    "test:ci": "CI=true vitest typecheck"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.1.2",

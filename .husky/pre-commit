@@ -1,0 +1,8 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+bun lint
+
+bun typecheck
+
+bun run build
