@@ -1,0 +1,26 @@
+{
+  "name": "cryptoscript",
+  "version": "0.0.0",
+  "module": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsup",
+    "format": "biome format . --write",
+    "lint": "biome check .",
+    "lint:fix": "pnpm lint --apply",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest",
+    "test:ci": "CI=true vitest --coverage",
+    "test:cov": "vitest --coverage"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.1.2",
+    "bun-types": "latest",
+    "husky": "^8.0.3",
+    "tsup": "^7.2.0",
+    "vitest": "^0.34.4"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
