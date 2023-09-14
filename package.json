@@ -1,7 +1,6 @@
 {
   "name": "cryptoscript",
   "version": "0.0.0",
-  "module": "src/index.ts",
   "type": "module",
   "scripts": {
     "build": "tsup",
@@ -21,5 +20,26 @@
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
+  },
+  "files": [
+    "dist",
+    "!dist/**/*.tsbuildinfo",
+    "src/**/*.ts",
+    "!src/**/*.test.ts",
+    "!src/**/*.test-d.ts",
+    "!src/**/*.bench.ts"
+  ],
+  "sideEffects": false,
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
+  "typings": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    },
+    "./package.json": "./package.json"
   }
 }
