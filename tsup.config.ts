@@ -4,9 +4,8 @@ export default defineConfig({
   name: "cryptoscript",
   entry: ["src/index.ts"],
   outDir: "dist",
-  format: ["esm", "cjs"],
+  format: ["esm"],
   splitting: false,
-  sourcemap: true,
+  sourcemap: false,
   dts: true,
-  clean: true,
 });
