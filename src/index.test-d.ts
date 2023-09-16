@@ -1,5 +1,29 @@
+import { type Call, type Pipe } from "hotscript";
 import { assertType, test } from "vitest";
-import type { Keccak256 } from "./index.js";
+import {
+  type HexToBits,
+  type Keccak256,
+  type NibbleToBits,
+  type Remove0x,
+} from "./index.js";
+
+test("remove 0x", () => {
+  assertType<Call<Remove0x, "0x356cfd6e6D0000400000003900b415f80669009e">>(
+    "356cfd6e6D0000400000003900b415f80669009e" as const,
+  );
+});
+
+test("hex to bits", () => {
+  type _t = Call<HexToBits, "0x356cfd6e6D0000400000003900b415f80669009e">;
+  //   ^?
+  // assertType<Call<HexToBits, "0x356cfd6e6D0000400000003900b415f80669009e">>(
+  //   "356cfd6e6D0000400000003900b415f80669009e" as const,
+  // );
+});
+
+test("nibble to bits", () => {
+  assertType<Pipe<"5", [NibbleToBits]>>([false, true, false, true] as const);
+});
 
 test("keccak256", () => {
   const hash =
