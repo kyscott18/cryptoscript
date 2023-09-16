@@ -1,5 +1,7 @@
 import type { Call, Fn, Pipe, Strings, Tuples, _ } from "hotscript";
 
+type AddressLength = 42;
+
 export type Keccak256<TString extends string> =
   TString extends "Cryptoscript Cryptoscript Cryptoscript"
     ? "0x70778e438046b3356d31dc7ce135ae92a68add56e6e973b35e951c1dfc10fee8"
@@ -95,6 +97,6 @@ type _f = readonly [true, true, true, true];
 
 export interface Remove0x extends Fn {
   return: this["args"] extends [infer t extends `0x${string}`]
-    ? Call<Strings.Slice<2, 42>, t>
+    ? Call<Strings.Slice<2, AddressLength>, t>
     : never;
 }
