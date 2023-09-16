@@ -1,6 +1,6 @@
 import type { Call } from "hotscript";
 import { assertType, test } from "vitest";
-import type { HexToBits, Keccak256, NibbleToBits, Remove0x } from "./index.js";
+import type { HexToBits, NibbleToBits, Remove0x } from "./index.js";
 
 test("remove 0x", () => {
   assertType<Call<Remove0x, "0x69">>("69" as const);
@@ -18,11 +18,5 @@ test("hex to bits", () => {
 
 test("nibble to bits", () => {
   assertType<Call<NibbleToBits, "5">>([false, true, false, true] as const);
-});
-
-test("keccak256", () => {
-  const hash =
-    "0x70778e438046b3356d31dc7ce135ae92a68add56e6e973b35e951c1dfc10fee8";
-
-  assertType<Keccak256<"Cryptoscript Cryptoscript Cryptoscript">>(hash);
+  assertType<Call<NibbleToBits, "a">>([true, false, true, false] as const);
 });

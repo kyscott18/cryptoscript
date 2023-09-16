@@ -11,3 +11,8 @@ Typescript type-level cryptography
 ## Examples
 
 ## API
+
+## Acknowledgements
+
+- [Hotscript](https://github.com/gvergnaud/hotscript/tree/main)
+- [Mipher](https://github.com/mpaland/mipher)
