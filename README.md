@@ -2,7 +2,7 @@
 
 Typescript type-level cryptography
 
-![image](https://github.com/kyscott18/cryptoscript/assets/43524469/59687243-394e-4b91-9251-b46ab5073a99)
+![carbon](https://github.com/kyscott18/cryptoscript/assets/43524469/f018725a-bafc-4e69-bef0-81ef4e0bfbe8)
 
 ## Features
 
