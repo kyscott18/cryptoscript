@@ -12,6 +12,9 @@ Typescript type-level cryptography
 
 ## API
 
+- [ ] ```Keccak256<Hex>```
+- [ ] ```Checksum<Address>```
+
 ## Acknowledgements
 
 - [Hotscript](https://github.com/gvergnaud/hotscript/tree/main)
