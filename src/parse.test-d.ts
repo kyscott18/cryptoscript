@@ -1,6 +1,6 @@
 import type { Call } from "hotscript";
 import { assertType, test } from "vitest";
-import type { HexToBits, NibbleToBits, Remove0x } from "./index.js";
+import type { HexToBits, Remove0x } from "./parse.js";
 
 test("remove 0x", () => {
   assertType<Call<Remove0x, "0x69">>("69" as const);
@@ -11,12 +11,10 @@ test("remove 0x", () => {
 
 test("hex to bits", () => {
   assertType<Call<HexToBits, "0x69">>([
-    [false, true, true, false] as const,
-    [true, false, false, true] as const,
+    [false, true, true, false] as [false, true, true, false],
+    [true, false, false, true] as [true, false, false, true],
   ]);
-});
-
-test("nibble to bits", () => {
-  assertType<Call<NibbleToBits, "5">>([false, true, false, true] as const);
-  assertType<Call<NibbleToBits, "a">>([true, false, true, false] as const);
+  assertType<Call<HexToBits, "0xA">>([
+    [true, false, true, false] as [true, false, true, false],
+  ]);
 });
