@@ -32,8 +32,14 @@
     "lib": [
       "ES2022"
     ],
-    "noEmit": true,
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": true,
+    "rootDir": "src",
+    "outDir": "dist",
     // Skip type checking for node modules
     "skipLibCheck": true
-  }
+  },
+  "include": ["src/"],
+  "exclude": ["**/*.test.ts", "**/*.test-d.ts"],
 }

@@ -3,8 +3,6 @@
 
 bun lint
 
-bun typecheck
-
-bun run build
+bun run tsc
 
 bun run test:ci

@@ -7,7 +7,6 @@
     "format": "biome format . --write",
     "lint": "biome check .",
     "lint:fix": "pnpm lint --apply",
-    "typecheck": "tsc",
     "test": "vitest typecheck",
     "test:ci": "CI=true vitest typecheck"
   },
@@ -16,7 +15,6 @@
     "bun-types": "latest",
     "hotscript": "^1.0.13",
     "husky": "^8.0.3",
-    "tsup": "^7.2.0",
     "typescript": "^5.2.2",
     "vitest": "^0.34.4"
   },
