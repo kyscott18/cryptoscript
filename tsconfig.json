@@ -33,7 +33,7 @@
       "ES2022"
     ],
     "declaration": true,
-    "declarationMap": true,
+    "declarationMap": false,
     "emitDeclarationOnly": true,
     "rootDir": "src",
     "outDir": "dist",

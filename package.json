@@ -6,7 +6,7 @@
     "build": "tsup",
     "format": "biome format . --write",
     "lint": "biome check .",
-    "lint:fix": "pnpm lint --apply",
+    "lint:fix": "biome check . --apply",
     "test": "vitest typecheck",
     "test:ci": "CI=true vitest typecheck"
   },
@@ -21,14 +21,7 @@
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
-  "files": [
-    "dist",
-    "!dist/**/*.tsbuildinfo",
-    "src/**/*.ts",
-    "!src/**/*.test.ts",
-    "!src/**/*.test-d.ts",
-    "!src/**/*.bench.ts"
-  ],
+  "files": ["dist"],
   "sideEffects": false,
   "types": "./dist/index.d.ts",
   "typings": "./dist/index.d.ts",
