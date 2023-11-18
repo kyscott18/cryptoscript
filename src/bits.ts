@@ -1,16 +1,51 @@
-import type { Booleans, Call, Fn, Identity, Tuples, _ } from "hotscript";
+import type { Booleans, Call, Fn, Identity, Tuples } from "hotscript";
 import type { Tuple } from "./tuple.js";
 
 export type Nibble = Tuple<boolean, 4>;
+export type Word = Tuple<boolean, 32>;
 
-export type Word = Tuple<boolean, 64>;
+export type Hex =
+  | "0"
+  | "1"
+  | "2"
+  | "3"
+  | "4"
+  | "5"
+  | "6"
+  | "7"
+  | "8"
+  | "9"
+  | "a"
+  | "b"
+  | "c"
+  | "d"
+  | "e"
+  | "f";
 
 /**
- * Converts half of a byte to an array of boolean values
- * @description Implements a hotscript lambda function
- * @param args A hexidecimal number between [0,f] in lowercase
+ * Boolean encodings for hexidecimal [0,f]
  */
-export interface NibbleToBits extends Fn {
+export type _0 = [false, false, false, false];
+export type _1 = [false, false, false, true];
+export type _2 = [false, false, true, false];
+export type _3 = [false, false, true, true];
+export type _4 = [false, true, false, false];
+export type _5 = [false, true, false, true];
+export type _6 = [false, true, true, false];
+export type _7 = [false, true, true, true];
+export type _8 = [true, false, false, false];
+export type _9 = [true, false, false, true];
+export type _a = [true, false, true, false];
+export type _b = [true, false, true, true];
+export type _c = [true, true, false, false];
+export type _d = [true, true, false, true];
+export type _e = [true, true, true, false];
+export type _f = [true, true, true, true];
+
+/**
+ * Convert {@link Hex} to {@link Nibble}
+ */
+export interface ConvertHexToNibble extends Fn {
   return: this["args"] extends [infer hex extends Hex]
     ? hex extends "0"
       ? _0
@@ -46,49 +81,14 @@ export interface NibbleToBits extends Fn {
     : never;
 }
 
-export interface NibblesToWord extends Fn {
-  return: this["args"] extends [infer ns extends Tuple<Nibble, 16>]
+/**
+ * Convert {@link Nibble} Array to {@link Word}
+ */
+export interface ConvertNibbleArrToWord extends Fn {
+  return: this["args"] extends [infer ns extends Tuple<Nibble, 8>]
     ? Call<Tuples.FlatMap<Identity>, ns>
     : never;
 }
-
-/**
- * Boolean encodings for hexidecimal [0,f]
- */
-export type _0 = [false, false, false, false];
-export type _1 = [false, false, false, true];
-export type _2 = [false, false, true, false];
-export type _3 = [false, false, true, true];
-export type _4 = [false, true, false, false];
-export type _5 = [false, true, false, true];
-export type _6 = [false, true, true, false];
-export type _7 = [false, true, true, true];
-export type _8 = [true, false, false, false];
-export type _9 = [true, false, false, true];
-export type _a = [true, false, true, false];
-export type _b = [true, false, true, true];
-export type _c = [true, true, false, false];
-export type _d = [true, true, false, true];
-export type _e = [true, true, true, false];
-export type _f = [true, true, true, true];
-
-export type Hex =
-  | "0"
-  | "1"
-  | "2"
-  | "3"
-  | "4"
-  | "5"
-  | "6"
-  | "7"
-  | "8"
-  | "9"
-  | "a"
-  | "b"
-  | "c"
-  | "d"
-  | "e"
-  | "f";
 
 export interface WordAnd extends Fn {
   return: this["args"] extends [infer a extends Word, infer b extends Word]

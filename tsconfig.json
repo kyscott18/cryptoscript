@@ -22,16 +22,11 @@
     "verbatimModuleSyntax": true,
     "importHelpers": true, // This is only used for build validation. Since we do not have `tslib` installed, this will fail if we accidentally make use of anything that'd require injection of helpers.
     "resolveJsonModule":true,
-    "types": [
-      "bun-types" // add Bun global
-    ],
+    "types": ["bun-types"],
     // Language and environment
     "moduleResolution": "NodeNext",
     "module": "NodeNext",
-    "target": "ES2021", // Setting this to `ES2021` enables native support for `Node v16+`: https://github.com/microsoft/TypeScript/wiki/Node-Target-Mapping.
-    "lib": [
-      "ES2022"
-    ],
+    "lib": ["ES2022"],
     "declaration": true,
     "declarationMap": false,
     "emitDeclarationOnly": true,
@@ -41,5 +36,5 @@
     "skipLibCheck": true
   },
   "include": ["src/"],
-  "exclude": ["**/*.test.ts", "**/*.test-d.ts"],
+  "exclude": ["**/*.test-d.ts"],
 }
