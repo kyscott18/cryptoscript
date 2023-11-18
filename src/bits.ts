@@ -1,8 +1,43 @@
-import type { Booleans, Call, Fn, Identity, Tuples } from "hotscript";
+import type { Booleans, Call, Fn, Identity, Numbers, Tuples } from "hotscript";
 import type { Tuple } from "./tuple.js";
 
 export type Nibble = Tuple<boolean, 4>;
 export type Word = Tuple<boolean, 32>;
+
+type WordIndex =
+  | 0
+  | 1
+  | 2
+  | 3
+  | 4
+  | 5
+  | 6
+  | 7
+  | 8
+  | 9
+  | 10
+  | 11
+  | 12
+  | 13
+  | 14
+  | 15
+  | 16
+  | 17
+  | 18
+  | 19
+  | 20
+  | 21
+  | 22
+  | 23
+  | 24
+  | 25
+  | 26
+  | 27
+  | 28
+  | 29
+  | 30
+  | 31
+  | 32;
 
 export type Hex =
   | "0"
@@ -243,5 +278,105 @@ export interface WordNot extends Fn {
         Call<Booleans.Not, a[30]>,
         Call<Booleans.Not, a[31]>,
       ]
+    : never;
+}
+export interface WordShr extends Fn {
+  return: this["args"] extends [infer w extends Word, infer x extends WordIndex]
+    ? [
+        ...Tuple<false, x>,
+        ...Call<Tuples.SplitAt, Call<Numbers.Sub, 32, x>, w>[0],
+      ]
+    : never;
+}
+
+export interface WordShl extends Fn {
+  return: this["args"] extends [infer w extends Word, infer x extends WordIndex]
+    ? [...Call<Tuples.SplitAt, x, w>[1], ...Tuple<false, x>]
+    : never;
+}
+
+/* (h << s) | (l >>> (32 - s)) */
+export interface WordRotlSH extends Fn {
+  return: this["args"] extends [
+    infer h extends Word,
+    infer l extends Word,
+    infer s extends WordIndex,
+  ]
+    ? Call<
+        WordOr,
+        Call<WordShl, h, s>,
+        Call<WordShr, l, Call<Numbers.Sub, 32, s>>
+      >
+    : never;
+}
+
+/* (l << s) | (h >>> (32 - s)) */
+export interface WordRotlSL extends Fn {
+  return: this["args"] extends [
+    infer h extends Word,
+    infer l extends Word,
+    infer s extends WordIndex,
+  ]
+    ? Call<
+        WordOr,
+        Call<WordShl, l, s>,
+        Call<WordShr, h, Call<Numbers.Sub, 32, s>>
+      >
+    : never;
+}
+
+/* (l << (s - 32)) | (h >>> (64 - s)) */
+export interface WordRotlBH extends Fn {
+  return: this["args"] extends [
+    infer h extends Word,
+    infer l extends Word,
+    infer s extends WordIndex,
+  ]
+    ? Call<
+        WordOr,
+        Call<WordShl, l, Call<Numbers.Sub, s, 32>>,
+        Call<WordShr, h, Call<Numbers.Sub, 64, s>>
+      >
+    : never;
+}
+
+/* (h << (s - 32)) | (l >>> (64 - s)) */
+export interface WordRotlBL extends Fn {
+  return: this["args"] extends [
+    infer h extends Word,
+    infer l extends Word,
+    infer s extends WordIndex,
+  ]
+    ? Call<
+        WordOr,
+        Call<WordShl, h, Call<Numbers.Sub, s, 32>>,
+        Call<WordShr, l, Call<Numbers.Sub, 64, s>>
+      >
+    : never;
+}
+
+/* (s > 32 ? rotlBH(h, l, s) : rotlSH(h, l, s)) */
+export interface WordRotlH extends Fn {
+  return: this["args"] extends [
+    infer h extends Word,
+    infer l extends Word,
+    infer s extends WordIndex,
+  ]
+    ? Call<Numbers.GreaterThan, s, 32> extends true
+      ? Call<WordRotlBH, h, l, s>
+      : Call<WordRotlSH, h, l, s>
+    : never;
+}
+
+/* (s > 32 ? rotlBL(h, l, s) : rotlSL(h, l, s)) */
+export interface WordRotlL extends Fn {
+  return: this["args"] extends [
+    infer h extends Word,
+    infer l extends Word,
+    infer s extends WordIndex,
+  ]
+    ? Call<Numbers.GreaterThan, s, 32> extends true
+      ? Call<WordRotlBL, h, l, s>
+      : Call<WordRotlSL, h, l, s>
     : never;
 }

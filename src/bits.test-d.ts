@@ -1,14 +1,16 @@
 import type { Call } from "hotscript";
-import { assertType, test } from "vitest";
-import type {
-  ConvertHexToNibble,
-  ConvertNibbleArrToWord,
-  WordAnd,
-  WordNot,
-  WordOr,
-  WordXOr,
-  _0,
-  _1,
+import { assert, assertType, test } from "vitest";
+import {
+  type ConvertHexToNibble,
+  type ConvertNibbleArrToWord,
+  type WordAnd,
+  type WordNot,
+  type WordOr,
+  WordShl,
+  WordShr,
+  type WordXOr,
+  type _0,
+  type _1,
 } from "./bits.js";
 import type { Tuple } from "./tuple.js";
 
@@ -56,4 +58,18 @@ test("WordXOr", () => {
 test("WordNot", () => {
   assertType<Call<WordNot, Word0>>([] as unknown as Word4294967295);
   assertType<Call<WordNot, Word1>>([] as unknown as Word4294967294);
+});
+
+test("WordShl", () => {
+  assertType<Call<WordShr, Word1, 1>>([] as unknown as Word0);
+  assertType<Call<WordShr, Word4294967295, 31>>([] as unknown as Word1);
+});
+
+test("WordShl", () => {
+  assertType<Call<WordShl, Word1, 1>>(
+    [] as unknown as [...Tuple<false, 30>, true, false],
+  );
+  assertType<Call<WordShl, Word1, 8>>(
+    [] as unknown as [...Tuple<false, 23>, true, ...Tuple<false, 8>],
+  );
 });
