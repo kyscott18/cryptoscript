@@ -3,7 +3,6 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build": "tsup",
     "format": "biome format . --write",
     "lint": "biome check .",
     "lint:fix": "biome check . --apply",
