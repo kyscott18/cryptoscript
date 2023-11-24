@@ -19,3 +19,4 @@ Typescript type-level cryptography
 
 - [Hotscript](https://github.com/gvergnaud/hotscript/tree/main)
 - [Mipher](https://github.com/mpaland/mipher)
+- [Noble](https://github.com/paulmillr/noble-hashes)
