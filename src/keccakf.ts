@@ -36,8 +36,8 @@ export interface _Theta extends Fn {
         >,
       ] extends [infer idx0 extends X1[number], infer idx1 extends X1[number]]
       ? [b[idx0], b[Call<Numbers.Add<idx0, 1>>]] extends [
-          infer b0 extends b[number],
-          infer b1 extends b[number],
+          infer b0 extends Word,
+          infer b1 extends Word,
         ]
         ? [
             Call<WordXOr, Call<WordRotlH, b0, b1, 1>, b[idx1]>,
@@ -46,7 +46,9 @@ export interface _Theta extends Fn {
               Call<WordRotlL, b0, b1, 1>,
               b[Call<Numbers.Add<idx1, 1>>]
             >,
-          ]
+          ] extends [infer Th extends Word, infer Tl extends Word]
+          ? [Th, Tl]
+          : never
         : never
       : never
     : never;

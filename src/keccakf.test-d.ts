@@ -2,7 +2,7 @@ import type { Call } from "hotscript";
 import { type Theta, _Theta } from "./keccakf.js";
 import type { Tuple } from "./tuple.js";
 
-import { assertType, test } from "vitest";
+import { test } from "vitest";
 
 type Word0 = Tuple<false, 32>;
 type Word1 = [...Tuple<false, 31>, true];
