@@ -280,6 +280,7 @@ export interface WordNot extends Fn {
       ]
     : never;
 }
+
 export interface WordShr extends Fn {
   return: this["args"] extends [infer w extends Word, infer x extends WordIndex]
     ? [
@@ -302,11 +303,11 @@ export interface WordRotlSH extends Fn {
     infer l extends Word,
     infer s extends WordIndex,
   ]
-    ? Call<
-        WordOr,
-        Call<WordShl, h, s>,
-        Call<WordShr, l, Call<Numbers.Sub, 32, s>>
-      >
+    ? Call<WordShl, h, s> extends infer a
+      ? Call<WordShr, l, Call<Numbers.Sub, 32, s>> extends infer b
+        ? Call<WordOr, a, b>
+        : never
+      : never
     : never;
 }
 
@@ -317,11 +318,11 @@ export interface WordRotlSL extends Fn {
     infer l extends Word,
     infer s extends WordIndex,
   ]
-    ? Call<
-        WordOr,
-        Call<WordShl, l, s>,
-        Call<WordShr, h, Call<Numbers.Sub, 32, s>>
-      >
+    ? Call<WordShl, l, s> extends infer a
+      ? Call<WordShr, h, Call<Numbers.Sub, 32, s>> extends infer b
+        ? Call<WordOr, a, b>
+        : never
+      : never
     : never;
 }
 
@@ -332,11 +333,11 @@ export interface WordRotlBH extends Fn {
     infer l extends Word,
     infer s extends WordIndex,
   ]
-    ? Call<
-        WordOr,
-        Call<WordShl, l, Call<Numbers.Sub, s, 32>>,
-        Call<WordShr, h, Call<Numbers.Sub, 64, s>>
-      >
+    ? Call<WordShl, l, Call<Numbers.Sub, s, 32>> extends infer a
+      ? Call<WordShr, h, Call<Numbers.Sub, 64, s>> extends infer b
+        ? Call<WordOr, a, b>
+        : never
+      : never
     : never;
 }
 
@@ -347,11 +348,11 @@ export interface WordRotlBL extends Fn {
     infer l extends Word,
     infer s extends WordIndex,
   ]
-    ? Call<
-        WordOr,
-        Call<WordShl, h, Call<Numbers.Sub, s, 32>>,
-        Call<WordShr, l, Call<Numbers.Sub, 64, s>>
-      >
+    ? Call<WordShl, h, Call<Numbers.Sub, s, 32>> extends infer a
+      ? Call<WordShr, l, Call<Numbers.Sub, 64, s>> extends infer b
+        ? Call<WordOr, a, b>
+        : never
+      : never
     : never;
 }
 
