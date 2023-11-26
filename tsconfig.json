@@ -27,11 +27,8 @@
     "moduleResolution": "NodeNext",
     "module": "NodeNext",
     "lib": ["ES2022"],
-    "declaration": true,
-    "declarationMap": false,
-    "emitDeclarationOnly": true,
+    "noEmit": true,
     "rootDir": "src",
-    "outDir": "dist",
     // Skip type checking for node modules
     "skipLibCheck": true
   },

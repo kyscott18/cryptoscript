@@ -20,13 +20,13 @@
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
-  "files": ["dist"],
+  "files": ["src/**/*.ts", "!src/**/*.test.ts"],
   "sideEffects": false,
-  "types": "./dist/index.d.ts",
-  "typings": "./dist/index.d.ts",
+  "types": "./src/index.ts",
+  "typings": "./src/index.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts"
+      "types": "./src/index.ts"
     },
     "./package.json": "./package.json"
   }
