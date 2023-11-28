@@ -1,5 +1,12 @@
 import type { Call, Fn, Numbers, PartialApply, Pipe } from "hotscript";
-import type { Word, WordRotlH, WordRotlL, WordXOr } from "./bits.js";
+import type {
+  Word,
+  WordAnd,
+  WordNot,
+  WordRotlH,
+  WordRotlL,
+  WordXOr,
+} from "./bits.js";
 import type { Tuple } from "./tuple.js";
 
 type S = Tuple<Word, 50>;
@@ -236,5 +243,38 @@ export interface Chi extends Fn {
  * @returns {Tuple<Word,50>}
  */
 export interface Iota extends Fn {
-  return: this["args"] extends [infer s extends S] ? s : never;
+  return: this["args"] extends [infer s extends S]
+    ? [
+        Call<WordXOr, s[0], Call<WordAnd, Call<WordNot, s[2]>, s[4]>>,
+        Call<WordXOr, s[1], Call<WordAnd, Call<WordNot, s[3]>, s[5]>>,
+        Call<WordXOr, s[2], Call<WordAnd, Call<WordNot, s[4]>, s[6]>>,
+        Call<WordXOr, s[3], Call<WordAnd, Call<WordNot, s[5]>, s[7]>>,
+        Call<WordXOr, s[4], Call<WordAnd, Call<WordNot, s[6]>, s[8]>>,
+        Call<WordXOr, s[5], Call<WordAnd, Call<WordNot, s[7]>, s[9]>>,
+        Call<WordXOr, s[6], Call<WordAnd, Call<WordNot, s[8]>, s[0]>>,
+        Call<WordXOr, s[7], Call<WordAnd, Call<WordNot, s[9]>, s[1]>>,
+        Call<WordXOr, s[8], Call<WordAnd, Call<WordNot, s[0]>, s[2]>>,
+        Call<WordXOr, s[9], Call<WordAnd, Call<WordNot, s[1]>, s[3]>>,
+        Call<WordXOr, s[10], Call<WordAnd, Call<WordNot, s[12]>, s[14]>>,
+        Call<WordXOr, s[11], Call<WordAnd, Call<WordNot, s[13]>, s[15]>>,
+        Call<WordXOr, s[12], Call<WordAnd, Call<WordNot, s[14]>, s[16]>>,
+        Call<WordXOr, s[13], Call<WordAnd, Call<WordNot, s[15]>, s[17]>>,
+        Call<WordXOr, s[14], Call<WordAnd, Call<WordNot, s[16]>, s[18]>>,
+        Call<WordXOr, s[15], Call<WordAnd, Call<WordNot, s[17]>, s[19]>>,
+        Call<WordXOr, s[16], Call<WordAnd, Call<WordNot, s[18]>, s[10]>>,
+        Call<WordXOr, s[17], Call<WordAnd, Call<WordNot, s[19]>, s[11]>>,
+        Call<WordXOr, s[18], Call<WordAnd, Call<WordNot, s[10]>, s[12]>>,
+        Call<WordXOr, s[19], Call<WordAnd, Call<WordNot, s[11]>, s[13]>>,
+        Call<WordXOr, s[10], Call<WordAnd, Call<WordNot, s[12]>, s[14]>>,
+        Call<WordXOr, s[11], Call<WordAnd, Call<WordNot, s[13]>, s[15]>>,
+        Call<WordXOr, s[12], Call<WordAnd, Call<WordNot, s[14]>, s[16]>>,
+        Call<WordXOr, s[13], Call<WordAnd, Call<WordNot, s[15]>, s[17]>>,
+        Call<WordXOr, s[14], Call<WordAnd, Call<WordNot, s[16]>, s[18]>>,
+        Call<WordXOr, s[15], Call<WordAnd, Call<WordNot, s[17]>, s[19]>>,
+        Call<WordXOr, s[16], Call<WordAnd, Call<WordNot, s[18]>, s[10]>>,
+        Call<WordXOr, s[17], Call<WordAnd, Call<WordNot, s[19]>, s[11]>>,
+        Call<WordXOr, s[18], Call<WordAnd, Call<WordNot, s[10]>, s[12]>>,
+        Call<WordXOr, s[19], Call<WordAnd, Call<WordNot, s[11]>, s[13]>>,
+      ]
+    : never;
 }
