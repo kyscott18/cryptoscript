@@ -63,11 +63,11 @@ export interface _Theta extends Fn {
 }
 
 /**
- * Calculate Theta for the sha3 hash family
+ * Theta step for the sha3 hash family
  *
- * @param {Word} s sha3 sponge
+ * @param {Tuple<Word,50>} s sha3 sponge
  *
- * @returns {[Tuple<Word,50>, Tuple<Word,10>]} [S, B]
+ * @returns {Tuple<Word,50>}
  */
 export interface Theta extends Fn {
   return: this["args"] extends [infer s extends S]
@@ -97,61 +97,144 @@ export interface Theta extends Fn {
           [infer Th8, infer Tl8],
         ]
         ? [
-            [
-              Call<WordXOr, s[0], Th0>,
-              Call<WordXOr, s[1], Tl0>,
-              Call<WordXOr, s[2], Th2>,
-              Call<WordXOr, s[3], Tl2>,
-              Call<WordXOr, s[4], Th4>,
-              Call<WordXOr, s[5], Tl4>,
-              Call<WordXOr, s[6], Th6>,
-              Call<WordXOr, s[7], Tl6>,
-              Call<WordXOr, s[8], Th8>,
-              Call<WordXOr, s[9], Tl8>,
-              Call<WordXOr, s[10], Th0>,
-              Call<WordXOr, s[11], Tl0>,
-              Call<WordXOr, s[12], Th2>,
-              Call<WordXOr, s[13], Tl2>,
-              Call<WordXOr, s[14], Th4>,
-              Call<WordXOr, s[15], Tl4>,
-              Call<WordXOr, s[16], Th6>,
-              Call<WordXOr, s[17], Tl6>,
-              Call<WordXOr, s[18], Th8>,
-              Call<WordXOr, s[19], Tl8>,
-              Call<WordXOr, s[20], Th0>,
-              Call<WordXOr, s[21], Tl0>,
-              Call<WordXOr, s[22], Th2>,
-              Call<WordXOr, s[23], Tl2>,
-              Call<WordXOr, s[24], Th4>,
-              Call<WordXOr, s[25], Tl4>,
-              Call<WordXOr, s[26], Th6>,
-              Call<WordXOr, s[27], Tl6>,
-              Call<WordXOr, s[28], Th8>,
-              Call<WordXOr, s[29], Tl8>,
-              Call<WordXOr, s[30], Th0>,
-              Call<WordXOr, s[31], Tl0>,
-              Call<WordXOr, s[32], Th2>,
-              Call<WordXOr, s[33], Tl2>,
-              Call<WordXOr, s[34], Th4>,
-              Call<WordXOr, s[35], Tl4>,
-              Call<WordXOr, s[36], Th6>,
-              Call<WordXOr, s[37], Tl6>,
-              Call<WordXOr, s[38], Th8>,
-              Call<WordXOr, s[39], Tl8>,
-              Call<WordXOr, s[40], Th0>,
-              Call<WordXOr, s[41], Tl0>,
-              Call<WordXOr, s[42], Th2>,
-              Call<WordXOr, s[43], Tl2>,
-              Call<WordXOr, s[44], Th4>,
-              Call<WordXOr, s[45], Tl4>,
-              Call<WordXOr, s[46], Th6>,
-              Call<WordXOr, s[47], Tl6>,
-              Call<WordXOr, s[48], Th8>,
-              Call<WordXOr, s[49], Tl8>,
-            ],
-            b,
+            Call<WordXOr, s[0], Th0>,
+            Call<WordXOr, s[1], Tl0>,
+            Call<WordXOr, s[2], Th2>,
+            Call<WordXOr, s[3], Tl2>,
+            Call<WordXOr, s[4], Th4>,
+            Call<WordXOr, s[5], Tl4>,
+            Call<WordXOr, s[6], Th6>,
+            Call<WordXOr, s[7], Tl6>,
+            Call<WordXOr, s[8], Th8>,
+            Call<WordXOr, s[9], Tl8>,
+            Call<WordXOr, s[10], Th0>,
+            Call<WordXOr, s[11], Tl0>,
+            Call<WordXOr, s[12], Th2>,
+            Call<WordXOr, s[13], Tl2>,
+            Call<WordXOr, s[14], Th4>,
+            Call<WordXOr, s[15], Tl4>,
+            Call<WordXOr, s[16], Th6>,
+            Call<WordXOr, s[17], Tl6>,
+            Call<WordXOr, s[18], Th8>,
+            Call<WordXOr, s[19], Tl8>,
+            Call<WordXOr, s[20], Th0>,
+            Call<WordXOr, s[21], Tl0>,
+            Call<WordXOr, s[22], Th2>,
+            Call<WordXOr, s[23], Tl2>,
+            Call<WordXOr, s[24], Th4>,
+            Call<WordXOr, s[25], Tl4>,
+            Call<WordXOr, s[26], Th6>,
+            Call<WordXOr, s[27], Tl6>,
+            Call<WordXOr, s[28], Th8>,
+            Call<WordXOr, s[29], Tl8>,
+            Call<WordXOr, s[30], Th0>,
+            Call<WordXOr, s[31], Tl0>,
+            Call<WordXOr, s[32], Th2>,
+            Call<WordXOr, s[33], Tl2>,
+            Call<WordXOr, s[34], Th4>,
+            Call<WordXOr, s[35], Tl4>,
+            Call<WordXOr, s[36], Th6>,
+            Call<WordXOr, s[37], Tl6>,
+            Call<WordXOr, s[38], Th8>,
+            Call<WordXOr, s[39], Tl8>,
+            Call<WordXOr, s[40], Th0>,
+            Call<WordXOr, s[41], Tl0>,
+            Call<WordXOr, s[42], Th2>,
+            Call<WordXOr, s[43], Tl2>,
+            Call<WordXOr, s[44], Th4>,
+            Call<WordXOr, s[45], Tl4>,
+            Call<WordXOr, s[46], Th6>,
+            Call<WordXOr, s[47], Tl6>,
+            Call<WordXOr, s[48], Th8>,
+            Call<WordXOr, s[49], Tl8>,
           ]
         : never
       : never
     : never;
+}
+
+/**
+ * Rho and Pi step for the sha3 hash family
+ *
+ * @param {Tuple<Word,50>} s sha3 sponge
+ *
+ * @returns {Tuple<Word,50>}
+ */
+export interface RhoAndPi extends Fn {
+  return: this["args"] extends [infer s extends S]
+    ? [
+        s[0],
+        s[1],
+        Call<WordRotlH, s[12], s[13], 44>,
+        Call<WordRotlL, s[12], s[13], 44>,
+        Call<WordRotlH, s[24], s[25], 43>,
+        Call<WordRotlL, s[24], s[25], 43>,
+        Call<WordRotlH, s[36], s[37], 21>,
+        Call<WordRotlL, s[36], s[37], 21>,
+        Call<WordRotlH, s[48], s[49], 14>,
+        Call<WordRotlL, s[48], s[49], 14>,
+        Call<WordRotlH, s[6], s[7], 28>,
+        Call<WordRotlL, s[6], s[7], 28>,
+        Call<WordRotlH, s[18], s[19], 20>,
+        Call<WordRotlL, s[18], s[19], 20>,
+        Call<WordRotlH, s[20], s[21], 3>,
+        Call<WordRotlL, s[20], s[21], 3>,
+        Call<WordRotlH, s[32], s[33], 45>,
+        Call<WordRotlL, s[32], s[33], 45>,
+        Call<WordRotlH, s[44], s[45], 61>,
+        Call<WordRotlL, s[44], s[45], 61>,
+        Call<WordRotlH, s[2], s[3], 1>,
+        Call<WordRotlL, s[2], s[3], 1>,
+        Call<WordRotlH, s[14], s[15], 6>,
+        Call<WordRotlL, s[14], s[15], 6>,
+        Call<WordRotlH, s[26], s[27], 25>,
+        Call<WordRotlL, s[26], s[27], 25>,
+        Call<WordRotlH, s[38], s[39], 8>,
+        Call<WordRotlL, s[38], s[39], 8>,
+        Call<WordRotlH, s[40], s[41], 18>,
+        Call<WordRotlL, s[40], s[41], 18>,
+        Call<WordRotlH, s[8], s[9], 27>,
+        Call<WordRotlL, s[8], s[9], 27>,
+        Call<WordRotlH, s[10], s[11], 36>,
+        Call<WordRotlL, s[10], s[11], 36>,
+        Call<WordRotlH, s[22], s[23], 10>,
+        Call<WordRotlL, s[22], s[23], 10>,
+        Call<WordRotlH, s[34], s[35], 15>,
+        Call<WordRotlL, s[34], s[35], 15>,
+        Call<WordRotlH, s[46], s[47], 56>,
+        Call<WordRotlL, s[47], s[47], 56>,
+        Call<WordRotlH, s[4], s[5], 62>,
+        Call<WordRotlL, s[4], s[5], 62>,
+        Call<WordRotlH, s[16], s[17], 55>,
+        Call<WordRotlL, s[16], s[17], 55>,
+        Call<WordRotlH, s[28], s[29], 39>,
+        Call<WordRotlL, s[28], s[29], 39>,
+        Call<WordRotlH, s[30], s[31], 41>,
+        Call<WordRotlL, s[30], s[31], 41>,
+        Call<WordRotlH, s[42], s[43], 2>,
+        Call<WordRotlL, s[42], s[43], 2>,
+      ]
+    : never;
+}
+
+/**
+ * Chi step for the sha3 hash family
+ *
+ * @param {Tuple<Word,50>} s sha3 sponge
+ *
+ * @returns {Tuple<Word,50>}
+ */
+export interface Chi extends Fn {
+  return: this["args"] extends [infer s extends S] ? s : never;
+}
+
+/**
+ * Iota step for the sha3 hash family
+ *
+ * @param {Tuple<Word,50>} s sha3 sponge
+ *
+ * @returns {Tuple<Word,50>}
+ */
+export interface Iota extends Fn {
+  return: this["args"] extends [infer s extends S] ? s : never;
 }
