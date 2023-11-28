@@ -7,6 +7,7 @@ import type {
   WordRotlL,
   WordXOr,
 } from "./bits.js";
+import type { Convert32bitHexToWord } from "./parse.js";
 import type { Tuple } from "./tuple.js";
 
 type S = Tuple<Word, 50>;
@@ -232,17 +233,6 @@ export interface RhoAndPi extends Fn {
  * @returns {Tuple<Word,50>}
  */
 export interface Chi extends Fn {
-  return: this["args"] extends [infer s extends S] ? s : never;
-}
-
-/**
- * Iota step for the sha3 hash family
- *
- * @param {Tuple<Word,50>} s sha3 sponge
- *
- * @returns {Tuple<Word,50>}
- */
-export interface Iota extends Fn {
   return: this["args"] extends [infer s extends S]
     ? [
         Call<WordXOr, s[0], Call<WordAnd, Call<WordNot, s[2]>, s[4]>>,
@@ -298,3 +288,37 @@ export interface Iota extends Fn {
       ]
     : never;
 }
+
+type Word0 = Call<Convert32bitHexToWord, "0x00000000">;
+type Word1 = Call<Convert32bitHexToWord, "0x00000001">;
+type Word136 = Call<Convert32bitHexToWord, "0x00000088">;
+type Word138 = Call<Convert32bitHexToWord, "0x00000090">;
+type Word139 = Call<Convert32bitHexToWord, "0x00000091">;
+type Word32898 = Call<Convert32bitHexToWord, "0x00008082">;
+type Word32906 = Call<Convert32bitHexToWord, "0x0000808a">;
+type Word32907 = Call<Convert32bitHexToWord, "0x0000808b">;
+type Word2147483648 = Call<Convert32bitHexToWord, "0x80000000">;
+type Word2147483649 = Call<Convert32bitHexToWord, "0x80000001">;
+type Word2147516416 = Call<Convert32bitHexToWord, "0x80008000">;
+
+type IOTA = [
+  Word1,
+  Word0,
+  Word32898,
+  Word2147483648,
+  Word2147516416,
+  Word2147483648,
+  Word32907,
+  Word0,
+  Word2147483649,
+  Word0,
+];
+
+/**
+ * Iota step for the sha3 hash family
+ *
+ * @param {Tuple<Word,50>} s sha3 sponge
+ *
+ * @returns {Tuple<Word,50>}
+ */
+export type Iota = Fn;

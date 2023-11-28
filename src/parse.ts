@@ -1,5 +1,5 @@
 import type { Call, Fn, Pipe, Strings, Tuples } from "hotscript";
-import type { ConvertHexToNibble } from "./bits.js";
+import type { ConvertHexToNibble, ConvertNibbleArrToWord } from "./bits.js";
 
 type HexString = `0x${string}`;
 type AddressLength = 42;
@@ -22,6 +22,21 @@ export interface ConvertHexStringToNibbleArr extends Fn {
           Strings.Lowercase,
           Strings.ToTuple,
           Tuples.Map<ConvertHexToNibble>,
+        ]
+      >
+    : never;
+}
+
+export interface Convert32bitHexToWord extends Fn {
+  return: this["args"] extends [infer hex extends HexString]
+    ? Pipe<
+        hex,
+        [
+          Remove0x,
+          Strings.Lowercase,
+          Strings.ToTuple,
+          Tuples.Map<ConvertHexToNibble>,
+          ConvertNibbleArrToWord,
         ]
       >
     : never;
