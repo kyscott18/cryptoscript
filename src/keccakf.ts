@@ -1,16 +1,16 @@
-import type { Call, Fn, Numbers, PartialApply, Pipe, Tuples } from "hotscript";
+import type { Call, Fn, Numbers, PartialApply, Pipe } from "hotscript";
 import type { Word, WordRotlH, WordRotlL, WordXOr } from "./bits.js";
 import type { Tuple } from "./tuple.js";
 
 type S = Tuple<Word, 50>;
 type B = Tuple<Word, 10>;
 
-type X1 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-type X2 = [0, 2, 4, 6, 8];
+type X1 = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+type X2 = 0 | 2 | 4 | 6 | 8;
 
 /* s[x] ^ s[x + 10] ^ s[x + 20] ^ s[x + 30] ^ s[x + 40] */
 interface ThetaB extends Fn {
-  return: this["args"] extends [infer s extends S, infer x extends X1[number]]
+  return: this["args"] extends [infer s extends S, infer x extends X1]
     ? Pipe<
         s[x],
         [
@@ -32,7 +32,7 @@ interface ThetaB extends Fn {
  * @returns {[Word, Word]} [Th, Tl]
  */
 export interface _Theta extends Fn {
-  return: this["args"] extends [infer b extends B, infer x extends X2[number]]
+  return: this["args"] extends [infer b extends B, infer x extends X2]
     ? [
         Pipe<
           x,
@@ -42,7 +42,7 @@ export interface _Theta extends Fn {
           x,
           [PartialApply<Numbers.Add, [8]>, PartialApply<Numbers.Mod, [10]>]
         >,
-      ] extends [infer idx0 extends X1[number], infer idx1 extends X1[number]]
+      ] extends [infer idx0 extends X1, infer idx1 extends X1]
       ? [b[idx0], b[Call<Numbers.Add<idx0, 1>>]] extends [
           infer b0 extends Word,
           infer b1 extends Word,
@@ -71,7 +71,18 @@ export interface _Theta extends Fn {
  */
 export interface Theta extends Fn {
   return: this["args"] extends [infer s extends S]
-    ? Call<Tuples.Map<PartialApply<ThetaB, [s]>>, X1> extends infer b extends B
+    ? [
+        Call<ThetaB, s, 0>,
+        Call<ThetaB, s, 1>,
+        Call<ThetaB, s, 2>,
+        Call<ThetaB, s, 3>,
+        Call<ThetaB, s, 4>,
+        Call<ThetaB, s, 5>,
+        Call<ThetaB, s, 6>,
+        Call<ThetaB, s, 7>,
+        Call<ThetaB, s, 8>,
+        Call<ThetaB, s, 9>,
+      ] extends infer b extends B
       ? [
           Call<_Theta, b, 0>,
           Call<_Theta, b, 2>,
@@ -79,8 +90,6 @@ export interface Theta extends Fn {
           Call<_Theta, b, 6>,
           Call<_Theta, b, 8>,
         ] extends [
-          // s[x + y] ^= Th;
-          // s[x + y + 1] ^= Tl;
           [infer Th0, infer Tl0],
           [infer Th2, infer Tl2],
           [infer Th4, infer Tl4],
