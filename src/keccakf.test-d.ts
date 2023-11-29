@@ -24,6 +24,6 @@ test("Chi", () => {
 });
 
 test("Iota", () => {
-  type t = Call<Iota, S1>;
+  type t = Call<Iota, S1, 0>;
   //   ^?
 });

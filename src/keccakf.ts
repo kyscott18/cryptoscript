@@ -1,4 +1,4 @@
-import type { Call, Fn, Numbers, PartialApply, Pipe } from "hotscript";
+import type { Call, Fn, Numbers, PartialApply, Pipe, Tuples } from "hotscript";
 import type {
   Word,
   WordAnd,
@@ -15,6 +15,31 @@ type B = Tuple<Word, 10>;
 
 type X1 = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 type X2 = 0 | 2 | 4 | 6 | 8;
+type Round =
+  | 0
+  | 2
+  | 4
+  | 6
+  | 8
+  | 10
+  | 12
+  | 14
+  | 16
+  | 18
+  | 20
+  | 22
+  | 24
+  | 26
+  | 28
+  | 30
+  | 32
+  | 34
+  | 36
+  | 38
+  | 40
+  | 42
+  | 44
+  | 46;
 
 /* s[x] ^ s[x + 10] ^ s[x + 20] ^ s[x + 30] ^ s[x + 40] */
 interface ThetaB extends Fn {
@@ -291,20 +316,34 @@ export interface Chi extends Fn {
 
 type Word0 = Call<Convert32bitHexToWord, "0x00000000">;
 type Word1 = Call<Convert32bitHexToWord, "0x00000001">;
+type Word128 = Call<Convert32bitHexToWord, "0x00000080">;
 type Word136 = Call<Convert32bitHexToWord, "0x00000088">;
 type Word138 = Call<Convert32bitHexToWord, "0x00000090">;
 type Word139 = Call<Convert32bitHexToWord, "0x00000091">;
+type Word32770 = Call<Convert32bitHexToWord, "0x00008002">;
+type Word32771 = Call<Convert32bitHexToWord, "0x00008003">;
+type Word32777 = Call<Convert32bitHexToWord, "0x00008009">;
+type Word32778 = Call<Convert32bitHexToWord, "0x0000800a">;
+type Word32896 = Call<Convert32bitHexToWord, "0x00008080">;
 type Word32898 = Call<Convert32bitHexToWord, "0x00008082">;
+type Word32905 = Call<Convert32bitHexToWord, "0x00008089">;
 type Word32906 = Call<Convert32bitHexToWord, "0x0000808a">;
 type Word32907 = Call<Convert32bitHexToWord, "0x0000808b">;
 type Word2147483648 = Call<Convert32bitHexToWord, "0x80000000">;
 type Word2147483649 = Call<Convert32bitHexToWord, "0x80000001">;
+type Word2147483658 = Call<Convert32bitHexToWord, "0x8000000a">;
 type Word2147516416 = Call<Convert32bitHexToWord, "0x80008000">;
+type Word2147516424 = Call<Convert32bitHexToWord, "0x80008008">;
+type Word2147516425 = Call<Convert32bitHexToWord, "0x80008009">;
+type Word2147516545 = Call<Convert32bitHexToWord, "0x80008081">;
+type Word2147516555 = Call<Convert32bitHexToWord, "0x8000808B">;
 
 type IOTA = [
   Word1,
   Word0,
   Word32898,
+  Word0,
+  Word32906,
   Word2147483648,
   Word2147516416,
   Word2147483648,
@@ -312,13 +351,58 @@ type IOTA = [
   Word0,
   Word2147483649,
   Word0,
+  Word2147516545,
+  Word2147483648,
+  Word32777,
+  Word2147483648,
+  Word138,
+  Word0,
+  Word136,
+  Word0,
+  Word2147516425,
+  Word0,
+  Word2147483658,
+  Word0,
+  Word2147516555,
+  Word0,
+  Word139,
+  Word2147483648,
+  Word32905,
+  Word2147483648,
+  Word32771,
+  Word2147483648,
+  Word32770,
+  Word2147483648,
+  Word128,
+  Word2147483648,
+  Word32778,
+  Word0,
+  Word2147483658,
+  Word2147483648,
+  Word2147516545,
+  Word2147483648,
+  Word32896,
+  Word2147483648,
+  Word2147483649,
+  Word0,
+  Word2147516424,
+  Word2147483648,
 ];
 
 /**
  * Iota step for the sha3 hash family
  *
  * @param {Tuple<Word,50>} s sha3 sponge
+ * @param {number} round
  *
  * @returns {Tuple<Word,50>}
  */
-export type Iota = Fn;
+export interface Iota extends Fn {
+  return: this["args"] extends [infer s extends S, infer round extends Round]
+    ? [
+        Call<WordXOr, s[0], IOTA[round]>,
+        Call<WordXOr, s[1], IOTA[Call<Numbers.Add, round, 1>]>,
+        ...Call<Tuples.Drop<2>, s>,
+      ]
+    : never;
+}
