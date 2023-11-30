@@ -1,16 +1,16 @@
 import type { Call } from "hotscript";
 import { assertType, test } from "vitest";
-import {
-  type ConvertHexToNibble,
-  type ConvertNibbleArrToWord,
-  type WordAnd,
-  type WordNot,
-  type WordOr,
+import type {
+  ConvertHexToNibble,
+  ConvertNibbleArrToWord,
+  WordAnd,
+  WordNot,
+  WordOr,
   WordShl,
   WordShr,
-  type WordXOr,
-  type _0,
-  type _1,
+  WordXOr,
+  _0,
+  _1,
 } from "./bits.js";
 import type { Tuple } from "./tuple.js";
 

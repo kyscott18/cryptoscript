@@ -5,7 +5,7 @@ import type {
   ConvertHexStringToNibbleArr,
   Remove0x,
 } from "./parse.js";
-import { Tuple } from "./tuple.js";
+import type { Tuple } from "./tuple.js";
 
 type Word1 = [...Tuple<false, 31>, true];
 type Word4294967294 = [...Tuple<true, 31>, false];

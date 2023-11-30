@@ -283,16 +283,13 @@ export interface WordNot extends Fn {
 
 export interface WordShr extends Fn {
   return: this["args"] extends [infer w extends Word, infer x extends WordIndex]
-    ? [
-        ...Tuple<false, x>,
-        ...Call<Tuples.SplitAt, Call<Numbers.Sub, 32, x>, w>[0],
-      ]
+    ? [...Tuple<false, x>, ...Call<Tuples.Take, Call<Numbers.Sub, 32, x>, w>]
     : never;
 }
 
 export interface WordShl extends Fn {
   return: this["args"] extends [infer w extends Word, infer x extends WordIndex]
-    ? [...Call<Tuples.SplitAt, x, w>[1], ...Tuple<false, x>]
+    ? [...Call<Tuples.Drop, x, w>, ...Tuple<false, x>]
     : never;
 }
 

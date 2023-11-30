@@ -15,31 +15,32 @@ type B = Tuple<Word, 10>;
 
 type X1 = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 type X2 = 0 | 2 | 4 | 6 | 8;
-type Round =
-  | 0
-  | 2
-  | 4
-  | 6
-  | 8
-  | 10
-  | 12
-  | 14
-  | 16
-  | 18
-  | 20
-  | 22
-  | 24
-  | 26
-  | 28
-  | 30
-  | 32
-  | 34
-  | 36
-  | 38
-  | 40
-  | 42
-  | 44
-  | 46;
+type Round = [
+  0,
+  2,
+  4,
+  6,
+  8,
+  10,
+  12,
+  14,
+  16,
+  18,
+  20,
+  22,
+  24,
+  26,
+  28,
+  30,
+  32,
+  34,
+  36,
+  38,
+  40,
+  42,
+  44,
+  46,
+];
 
 /* s[x] ^ s[x + 10] ^ s[x + 20] ^ s[x + 30] ^ s[x + 40] */
 interface ThetaB extends Fn {
@@ -64,7 +65,7 @@ interface ThetaB extends Fn {
  *
  * @returns {[Word, Word]} [Th, Tl]
  */
-export interface _Theta extends Fn {
+interface _Theta extends Fn {
   return: this["args"] extends [infer b extends B, infer x extends X2]
     ? [
         Pipe<
@@ -392,17 +393,55 @@ type IOTA = [
 /**
  * Iota step for the sha3 hash family
  *
- * @param {Tuple<Word,50>} s sha3 sponge
  * @param {number} round
+ * @param {Tuple<Word,50>} s sha3 sponge
  *
  * @returns {Tuple<Word,50>}
  */
 export interface Iota extends Fn {
-  return: this["args"] extends [infer s extends S, infer round extends Round]
+  return: this["args"] extends [
+    infer round extends Round[number],
+    infer s extends S,
+  ]
     ? [
         Call<WordXOr, s[0], IOTA[round]>,
         Call<WordXOr, s[1], IOTA[Call<Numbers.Add, round, 1>]>,
         ...Call<Tuples.Drop<2>, s>,
       ]
+    : never;
+}
+
+/**
+ * One round of KeccakF step for the sha3 hash family
+ *
+ * @param {Tuple<Word,50>} s sha3 sponge
+ * @param {number} round
+ *
+ * @returns {Tuple<Word,50>}
+ */
+interface _KeccakF extends Fn {
+  return: this["args"] extends [
+    infer s extends S,
+    infer round extends Round[number],
+  ]
+    ? Pipe<s, [Theta, RhoAndPi, Chi, PartialApply<Iota, [round]>]>
+    : never;
+}
+
+/**
+ * KeccakF step for the sha3 hash family
+ *
+ * @param {Tuple<Word,50>} s sha3 sponge
+ *
+ * @returns {Tuple<Word,50>}
+ */
+export interface KeccakF extends Fn {
+  return: this["args"] extends [infer s extends S]
+    ? Call<
+        Tuples.Reduce<_KeccakF, s>,
+        Call<Tuples.Take<12>, Round>
+      > extends infer _s extends S
+      ? Call<Tuples.Reduce<_KeccakF, _s>, Call<Tuples.Drop<12>, Round>>
+      : never
     : never;
 }
