@@ -328,7 +328,7 @@ export interface WordRotlBH extends Fn {
   return: this["args"] extends [
     infer h extends Word,
     infer l extends Word,
-    infer s extends WordIndex,
+    infer s extends ShiftIndex,
   ]
     ? Call<WordShl, l, Call<Numbers.Sub, s, 32>> extends infer a
       ? Call<WordShr, h, Call<Numbers.Sub, 64, s>> extends infer b
@@ -343,7 +343,7 @@ export interface WordRotlBL extends Fn {
   return: this["args"] extends [
     infer h extends Word,
     infer l extends Word,
-    infer s extends WordIndex,
+    infer s extends ShiftIndex,
   ]
     ? Call<WordShl, h, Call<Numbers.Sub, s, 32>> extends infer a
       ? Call<WordShr, l, Call<Numbers.Sub, 64, s>> extends infer b
@@ -358,7 +358,7 @@ export interface WordRotlH extends Fn {
   return: this["args"] extends [
     infer h extends Word,
     infer l extends Word,
-    infer s extends WordIndex,
+    infer s extends ShiftIndex,
   ]
     ? Call<Numbers.GreaterThan, s, 32> extends true
       ? Call<WordRotlBH, h, l, s>
@@ -371,10 +371,76 @@ export interface WordRotlL extends Fn {
   return: this["args"] extends [
     infer h extends Word,
     infer l extends Word,
-    infer s extends WordIndex,
+    infer s extends ShiftIndex,
   ]
     ? Call<Numbers.GreaterThan, s, 32> extends true
       ? Call<WordRotlBL, h, l, s>
       : Call<WordRotlSL, h, l, s>
     : never;
 }
+
+type ShiftIndex =
+  | 0
+  | 1
+  | 2
+  | 3
+  | 4
+  | 5
+  | 6
+  | 7
+  | 8
+  | 9
+  | 10
+  | 11
+  | 12
+  | 13
+  | 14
+  | 15
+  | 16
+  | 17
+  | 18
+  | 19
+  | 20
+  | 21
+  | 22
+  | 23
+  | 24
+  | 25
+  | 26
+  | 27
+  | 28
+  | 29
+  | 30
+  | 31
+  | 32
+  | 33
+  | 34
+  | 35
+  | 36
+  | 37
+  | 38
+  | 39
+  | 40
+  | 41
+  | 42
+  | 43
+  | 44
+  | 45
+  | 46
+  | 47
+  | 48
+  | 49
+  | 50
+  | 51
+  | 52
+  | 53
+  | 54
+  | 55
+  | 56
+  | 57
+  | 58
+  | 59
+  | 60
+  | 61
+  | 62
+  | 63;

@@ -13,8 +13,7 @@ import type { Tuple } from "./tuple.js";
 type S = Tuple<Word, 50>;
 type B = Tuple<Word, 10>;
 
-type X1 = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
-type X2 = 0 | 2 | 4 | 6 | 8;
+type X = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 type Round = [
   0,
   2,
@@ -44,7 +43,7 @@ type Round = [
 
 /* s[x] ^ s[x + 10] ^ s[x + 20] ^ s[x + 30] ^ s[x + 40] */
 interface ThetaB extends Fn {
-  return: this["args"] extends [infer s extends S, infer x extends X1]
+  return: this["args"] extends [infer s extends S, infer x extends X]
     ? Pipe<
         s[x],
         [
@@ -65,33 +64,24 @@ interface ThetaB extends Fn {
  *
  * @returns {[Word, Word]} [Th, Tl]
  */
-interface _Theta extends Fn {
-  return: this["args"] extends [infer b extends B, infer x extends X2]
-    ? [
-        Pipe<
-          x,
-          [PartialApply<Numbers.Add, [2]>, PartialApply<Numbers.Mod, [10]>]
-        >,
-        Pipe<
-          x,
-          [PartialApply<Numbers.Add, [8]>, PartialApply<Numbers.Mod, [10]>]
-        >,
-      ] extends [infer idx0 extends X1, infer idx1 extends X1]
-      ? [b[idx0], b[Call<Numbers.Add<idx0, 1>>]] extends [
-          infer b0 extends Word,
-          infer b1 extends Word,
+export interface _Theta extends Fn {
+  return: this["args"] extends [
+    infer b extends B,
+    infer idx0 extends 0 | 2 | 4 | 6 | 8,
+    infer idx1 extends 0 | 2 | 4 | 6 | 8,
+  ]
+    ? [b[idx0], b[Call<Numbers.Add<idx0, 1>>]] extends [
+        infer b0 extends Word,
+        infer b1 extends Word,
+      ]
+      ? [
+          Call<WordXOr, Call<WordRotlH, b0, b1, 1>, b[idx1]>,
+          Call<
+            WordXOr,
+            Call<WordRotlL, b0, b1, 1>,
+            b[Call<Numbers.Add<idx1, 1>>]
+          >,
         ]
-        ? [
-            Call<WordXOr, Call<WordRotlH, b0, b1, 1>, b[idx1]>,
-            Call<
-              WordXOr,
-              Call<WordRotlL, b0, b1, 1>,
-              b[Call<Numbers.Add<idx1, 1>>]
-            >,
-          ] extends [infer Th extends Word, infer Tl extends Word]
-          ? [Th, Tl]
-          : never
-        : never
       : never
     : never;
 }
@@ -118,11 +108,11 @@ export interface Theta extends Fn {
         Call<ThetaB, s, 9>,
       ] extends infer b extends B
       ? [
-          Call<_Theta, b, 0>,
-          Call<_Theta, b, 2>,
-          Call<_Theta, b, 4>,
-          Call<_Theta, b, 6>,
-          Call<_Theta, b, 8>,
+          Call<_Theta, b, 2, 8>,
+          Call<_Theta, b, 4, 0>,
+          Call<_Theta, b, 6, 2>,
+          Call<_Theta, b, 8, 4>,
+          Call<_Theta, b, 0, 6>,
         ] extends [
           [infer Th0, infer Tl0],
           [infer Th2, infer Tl2],
@@ -393,15 +383,15 @@ type IOTA = [
 /**
  * Iota step for the sha3 hash family
  *
- * @param {number} round
  * @param {Tuple<Word,50>} s sha3 sponge
+ * @param {number} round
  *
  * @returns {Tuple<Word,50>}
  */
 export interface Iota extends Fn {
   return: this["args"] extends [
-    infer round extends Round[number],
     infer s extends S,
+    infer round extends Round[number],
   ]
     ? [
         Call<WordXOr, s[0], IOTA[round]>,
@@ -419,12 +409,18 @@ export interface Iota extends Fn {
  *
  * @returns {Tuple<Word,50>}
  */
-interface _KeccakF extends Fn {
+export interface _KeccakF extends Fn {
   return: this["args"] extends [
     infer s extends S,
     infer round extends Round[number],
   ]
-    ? Pipe<s, [Theta, RhoAndPi, Chi, PartialApply<Iota, [round]>]>
+    ? Call<Theta, s> extends infer a extends S
+      ? Call<RhoAndPi, a> extends infer b extends S
+        ? Call<Chi, b> extends infer c extends S
+          ? Call<Iota, c, round>
+          : never
+        : never
+      : never
     : never;
 }
 

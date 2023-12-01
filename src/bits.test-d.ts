@@ -6,6 +6,8 @@ import type {
   WordAnd,
   WordNot,
   WordOr,
+  WordRotlH,
+  WordRotlL,
   WordShl,
   WordShr,
   WordXOr,
@@ -16,6 +18,13 @@ import type { Tuple } from "./tuple.js";
 
 type Word0 = Tuple<false, 32>;
 type Word1 = [...Tuple<false, 31>, true];
+type Word255 = [...Tuple<false, 24>, ...Tuple<true, 8>];
+type Word65536 = [...Tuple<false, 15>, true, ...Tuple<false, 16>];
+type Word16711680 = [
+  ...Tuple<false, 8>,
+  ...Tuple<true, 8>,
+  ...Tuple<false, 16>,
+];
 type Word4294967294 = [...Tuple<true, 31>, false];
 type Word4294967295 = Tuple<true, 32>;
 
@@ -72,4 +81,18 @@ test("WordShl", () => {
   assertType<Call<WordShl, Word1, 8>>(
     [] as unknown as [...Tuple<false, 23>, true, ...Tuple<false, 8>],
   );
+});
+
+test("WordRotlH", () => {
+  assertType<Call<WordRotlH, Word1, Word255, 16>>([] as unknown as Word65536);
+  assertType<Call<WordRotlH, Word1, Word255, 48>>(
+    [] as unknown as Word16711680,
+  );
+});
+
+test("WordRotlL", () => {
+  assertType<Call<WordRotlL, Word1, Word255, 16>>(
+    [] as unknown as Word16711680,
+  );
+  assertType<Call<WordRotlL, Word1, Word255, 48>>([] as unknown as Word65536);
 });
