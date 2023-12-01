@@ -1,6 +1,6 @@
 # Cryptoscript
 
-Typescript type-level cryptography
+TypeScript type-level cryptography
 
 ![carbon](https://github.com/kyscott18/cryptoscript/assets/43524469/f018725a-bafc-4e69-bef0-81ef4e0bfbe8)
 
