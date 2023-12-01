@@ -1,12 +1,5 @@
 import type { Call, Fn, Numbers, PartialApply, Pipe, Tuples } from "hotscript";
-import type {
-  Word,
-  WordAnd,
-  WordNot,
-  WordRotlH,
-  WordRotlL,
-  WordXOr,
-} from "./bits.js";
+import type { Word, WordAnd, WordNot, WordRotlH, WordRotlL, WordXOr } from "./bits.js";
 import type { Convert32bitHexToWord } from "./parse.js";
 import type { Tuple } from "./tuple.js";
 
@@ -76,11 +69,7 @@ export interface _Theta extends Fn {
       ]
       ? [
           Call<WordXOr, Call<WordRotlH, b0, b1, 1>, b[idx1]>,
-          Call<
-            WordXOr,
-            Call<WordRotlL, b0, b1, 1>,
-            b[Call<Numbers.Add<idx1, 1>>]
-          >,
+          Call<WordXOr, Call<WordRotlL, b0, b1, 1>, b[Call<Numbers.Add<idx1, 1>>]>,
         ]
       : never
     : never;
@@ -309,8 +298,8 @@ type Word0 = Call<Convert32bitHexToWord, "0x00000000">;
 type Word1 = Call<Convert32bitHexToWord, "0x00000001">;
 type Word128 = Call<Convert32bitHexToWord, "0x00000080">;
 type Word136 = Call<Convert32bitHexToWord, "0x00000088">;
-type Word138 = Call<Convert32bitHexToWord, "0x00000090">;
-type Word139 = Call<Convert32bitHexToWord, "0x00000091">;
+type Word138 = Call<Convert32bitHexToWord, "0x0000008a">;
+type Word139 = Call<Convert32bitHexToWord, "0x0000008b">;
 type Word32770 = Call<Convert32bitHexToWord, "0x00008002">;
 type Word32771 = Call<Convert32bitHexToWord, "0x00008003">;
 type Word32777 = Call<Convert32bitHexToWord, "0x00008009">;
@@ -389,10 +378,7 @@ type IOTA = [
  * @returns {Tuple<Word,50>}
  */
 export interface Iota extends Fn {
-  return: this["args"] extends [
-    infer s extends S,
-    infer round extends Round[number],
-  ]
+  return: this["args"] extends [infer s extends S, infer round extends Round[number]]
     ? [
         Call<WordXOr, s[0], IOTA[round]>,
         Call<WordXOr, s[1], IOTA[Call<Numbers.Add, round, 1>]>,
@@ -410,10 +396,7 @@ export interface Iota extends Fn {
  * @returns {Tuple<Word,50>}
  */
 export interface _KeccakF extends Fn {
-  return: this["args"] extends [
-    infer s extends S,
-    infer round extends Round[number],
-  ]
+  return: this["args"] extends [infer s extends S, infer round extends Round[number]]
     ? Call<Theta, s> extends infer a extends S
       ? Call<RhoAndPi, a> extends infer b extends S
         ? Call<Chi, b> extends infer c extends S
@@ -430,14 +413,42 @@ export interface _KeccakF extends Fn {
  * @param {Tuple<Word,50>} s sha3 sponge
  *
  * @returns {Tuple<Word,50>}
+ */ interface KeccakF_A extends Fn {
+  return: this["args"] extends [infer s extends S]
+    ? Call<_KeccakF, Call<_KeccakF, Call<_KeccakF, s, 0>, 2>, 4> extends infer a
+      ? Call<_KeccakF, Call<_KeccakF, Call<_KeccakF, a, 6>, 8>, 10> extends infer b
+        ? Call<_KeccakF, Call<_KeccakF, Call<_KeccakF, b, 12>, 14>, 16> extends infer c
+          ? Call<_KeccakF, Call<_KeccakF, Call<_KeccakF, c, 18>, 20>, 22>
+          : never
+        : never
+      : never
+    : never;
+}
+
+export interface KeccakF_B extends Fn {
+  return: this["args"] extends [infer s extends S]
+    ? Call<_KeccakF, Call<_KeccakF, Call<_KeccakF, s, 24>, 26>, 28> extends infer a
+      ? Call<_KeccakF, Call<_KeccakF, Call<_KeccakF, a, 30>, 32>, 34> extends infer b
+        ? Call<_KeccakF, Call<_KeccakF, Call<_KeccakF, b, 36>, 38>, 40> extends infer c
+          ? Call<_KeccakF, Call<_KeccakF, Call<_KeccakF, c, 42>, 44>, 46>
+          : never
+        : never
+      : never
+    : never;
+}
+
+/**
+ * KeccakF step for the sha3 hash family
+ *
+ * @param {Tuple<Word,50>} s sha3 sponge
+ *
+ * @returns {Tuple<Word,50>}
  */
+
 export interface KeccakF extends Fn {
   return: this["args"] extends [infer s extends S]
-    ? Call<
-        Tuples.Reduce<_KeccakF, s>,
-        Call<Tuples.Take<12>, Round>
-      > extends infer _s extends S
-      ? Call<Tuples.Reduce<_KeccakF, _s>, Call<Tuples.Drop<12>, Round>>
+    ? Call<KeccakF_A, s> extends infer _s
+      ? Call<KeccakF_B, _s>
       : never
     : never;
 }

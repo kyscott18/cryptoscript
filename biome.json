@@ -11,7 +11,7 @@
     "formatWithErrors": true,
     "indentStyle": "space",
     "indentWidth": 2,
-    "lineWidth": 80
+    "lineWidth": 100
   },
   "linter": {
     "enabled": true,

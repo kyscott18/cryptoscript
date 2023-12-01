@@ -1,8 +1,0 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
-
-bun lint
-
-bun run tsc
-
-bun run test:ci

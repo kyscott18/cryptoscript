@@ -15,15 +15,7 @@ export interface Remove0x extends Fn {
 
 export interface ConvertHexStringToNibbleArr extends Fn {
   return: this["args"] extends [infer hex extends HexString]
-    ? Pipe<
-        hex,
-        [
-          Remove0x,
-          Strings.Lowercase,
-          Strings.ToTuple,
-          Tuples.Map<ConvertHexToNibble>,
-        ]
-      >
+    ? Pipe<hex, [Remove0x, Strings.Lowercase, Strings.ToTuple, Tuples.Map<ConvertHexToNibble>]>
     : never;
 }
 

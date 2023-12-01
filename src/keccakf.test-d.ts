@@ -1,13 +1,5 @@
 import type { Call } from "hotscript";
-import type {
-  Chi,
-  Iota,
-  KeccakF,
-  RhoAndPi,
-  Theta,
-  _KeccakF,
-  _Theta,
-} from "./keccakf.js";
+import type { Chi, Iota, KeccakF, RhoAndPi, Theta, _KeccakF, _Theta } from "./keccakf.js";
 import type { Tuple } from "./tuple.js";
 
 import { assertType, test } from "vitest";

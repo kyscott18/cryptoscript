@@ -1,10 +1,6 @@
 import type { Call } from "hotscript";
 import { assertType, test } from "vitest";
-import type {
-  Convert32bitHexToWord,
-  ConvertHexStringToNibbleArr,
-  Remove0x,
-} from "./parse.js";
+import type { Convert32bitHexToWord, ConvertHexStringToNibbleArr, Remove0x } from "./parse.js";
 import type { Tuple } from "./tuple.js";
 
 type Word1 = [...Tuple<false, 31>, true];
@@ -28,7 +24,5 @@ test("ConvertHexStringToNibbleArr", () => {
 
 test("Convert32bitHexToWord", () => {
   assertType<Call<Convert32bitHexToWord, "0x00000001">>([] as unknown as Word1);
-  assertType<Call<Convert32bitHexToWord, "0xfffffffe">>(
-    [] as unknown as Word4294967294,
-  );
+  assertType<Call<Convert32bitHexToWord, "0xfffffffe">>([] as unknown as Word4294967294);
 });

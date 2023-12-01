@@ -85,34 +85,34 @@ export interface ConvertHexToNibble extends Fn {
     ? hex extends "0"
       ? _0
       : hex extends "1"
-      ? _1
-      : hex extends "2"
-      ? _2
-      : hex extends "3"
-      ? _3
-      : hex extends "4"
-      ? _4
-      : hex extends "5"
-      ? _5
-      : hex extends "6"
-      ? _6
-      : hex extends "7"
-      ? _7
-      : hex extends "8"
-      ? _8
-      : hex extends "9"
-      ? _9
-      : hex extends "a"
-      ? _a
-      : hex extends "b"
-      ? _b
-      : hex extends "c"
-      ? _c
-      : hex extends "d"
-      ? _d
-      : hex extends "e"
-      ? _e
-      : _f
+        ? _1
+        : hex extends "2"
+          ? _2
+          : hex extends "3"
+            ? _3
+            : hex extends "4"
+              ? _4
+              : hex extends "5"
+                ? _5
+                : hex extends "6"
+                  ? _6
+                  : hex extends "7"
+                    ? _7
+                    : hex extends "8"
+                      ? _8
+                      : hex extends "9"
+                        ? _9
+                        : hex extends "a"
+                          ? _a
+                          : hex extends "b"
+                            ? _b
+                            : hex extends "c"
+                              ? _c
+                              : hex extends "d"
+                                ? _d
+                                : hex extends "e"
+                                  ? _e
+                                  : _f
     : never;
 }
 
