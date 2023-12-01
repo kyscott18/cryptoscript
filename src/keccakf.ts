@@ -215,7 +215,7 @@ export interface RhoAndPi extends Fn {
         Call<WordRotlH, s[34], s[35], 15>,
         Call<WordRotlL, s[34], s[35], 15>,
         Call<WordRotlH, s[46], s[47], 56>,
-        Call<WordRotlL, s[47], s[47], 56>,
+        Call<WordRotlL, s[46], s[47], 56>,
         Call<WordRotlH, s[4], s[5], 62>,
         Call<WordRotlL, s[4], s[5], 62>,
         Call<WordRotlH, s[16], s[17], 55>,
@@ -397,9 +397,9 @@ export interface Iota extends Fn {
  */
 export interface _KeccakF extends Fn {
   return: this["args"] extends [infer s extends S, infer round extends Round[number]]
-    ? Call<Theta, s> extends infer a extends S
-      ? Call<RhoAndPi, a> extends infer b extends S
-        ? Call<Chi, b> extends infer c extends S
+    ? Call<Theta, s> extends infer a
+      ? Call<RhoAndPi, a> extends infer b
+        ? Call<Chi, b> extends infer c
           ? Call<Iota, c, round>
           : never
         : never
