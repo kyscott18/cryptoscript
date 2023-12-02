@@ -6,8 +6,8 @@
     "format": "biome format . --write",
     "lint": "biome check .",
     "lint:fix": "biome check . --apply",
-    "test": "vitest typecheck",
-    "test:ci": "CI=true vitest typecheck"
+    "test": "vitest --typecheck",
+    "test:ci": "CI=true vitest --typecheck"
   },
   "devDependencies": {
     "@biomejs/biome": "latest",
