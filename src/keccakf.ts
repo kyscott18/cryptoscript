@@ -3,8 +3,8 @@ import type { Word, WordAnd, WordNot, WordRotlH, WordRotlL, WordXOr } from "./bi
 import type { Convert32bitHexToWord } from "./parse.js";
 import type { Tuple } from "./tuple.js";
 
-type S = Tuple<Word, 50>;
-type B = Tuple<Word, 10>;
+export type S = Tuple<Word, 50>;
+export type B = Tuple<Word, 10>;
 
 type X = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 type Round = [

@@ -1,5 +1,12 @@
 import type { Call, Fn, Identity, Numbers, Pipe, Strings, Tuples } from "hotscript";
-import type { ConvertHexToNibble, ConvertNibbleArrToWord, Nibble, Word } from "./bits.js";
+import type {
+  ConvertHexToNibble,
+  ConvertNibbleArrToWord,
+  ConvertNibbleToHex,
+  ConvertWordToNibbleArr,
+  Nibble,
+  Word,
+} from "./bits.js";
 import type { Tuple } from "./tuple.js";
 
 export type HexString = `0x${string}`;
@@ -61,5 +68,11 @@ export interface ConvertHexStringToWordArr extends Fn {
 }
 
 export interface ConvertWordArrToHexString extends Fn {
-  return: this["args"] extends [infer w extends Tuple<Word, 8>] ? w : never;
+  return: this["args"] extends [infer w extends Tuple<Word, 8>]
+    ? Call<Tuples.Map<ConvertWordToNibbleArr>, w> extends infer nibArr
+      ? Call<Tuples.FlatMap<ConvertNibbleToHex>, nibArr> extends infer hexArr
+        ? `0x${Call<Tuples.Join, "", hexArr>}`
+        : never
+      : never
+    : never;
 }

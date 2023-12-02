@@ -1,2 +1,1 @@
-export type Keccak256 = never;
-export type CheckSum = never;
+export type { Keccak256 } from "./keccak256.js";
