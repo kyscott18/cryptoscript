@@ -3,6 +3,7 @@ import { assertType, test } from "vitest";
 import type {
   ConvertHexToNibble,
   ConvertNibbleArrToWord,
+  ConvertWordToNibbleArr,
   WordAnd,
   WordNot,
   WordOr,
@@ -40,9 +41,17 @@ test("ConvertHexToNibble", () => {
 });
 
 test("ConvertNibbleArrToWord", () => {
-  assertType<Call<ConvertNibbleArrToWord, [_0, _0, _0, _0, _0, _0, _0, _1]>>(
-    [] as unknown as Word1,
-  );
+  type t = Call<ConvertNibbleArrToWord, [_0, _0, _0, _0, _0, _0, _0, _1]>;
+  //   ^?
+
+  assertType<t>([] as unknown as Word1);
+});
+
+test("ConvertWordToNibbleArr", () => {
+  type t = Call<ConvertWordToNibbleArr, Word1>;
+  //   ^?
+
+  assertType<t>([] as unknown as [_0, _0, _0, _0, _0, _0, _0, _1]);
 });
 
 test("WordAdd", () => {

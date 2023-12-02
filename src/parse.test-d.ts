@@ -1,6 +1,11 @@
-import type { Call } from "hotscript";
+import type { Call, Strings } from "hotscript";
 import { assertType, test } from "vitest";
-import type { Convert32bitHexToWord, ConvertHexStringToNibbleArr, Remove0x } from "./parse.js";
+import type {
+  Convert32bitHexToWord,
+  ConvertHexStringToWordArr,
+  Remove0x,
+  ZeroPad,
+} from "./parse.js";
 import type { Tuple } from "./tuple.js";
 
 type Word1 = [...Tuple<false, 31>, true];
@@ -13,16 +18,22 @@ test("Remove0x", () => {
   );
 });
 
-test("ConvertHexStringToNibbleArr", () => {
-  assertType<Call<ConvertHexStringToNibbleArr, "0xA">>(
-    [] as unknown as [[true, false, true, false]],
-  );
-  assertType<Call<ConvertHexStringToNibbleArr, "0x69">>(
-    [] as unknown as [[false, true, true, false], [true, false, false, true]],
-  );
-});
-
 test("Convert32bitHexToWord", () => {
   assertType<Call<Convert32bitHexToWord, "0x00000001">>([] as unknown as Word1);
   assertType<Call<Convert32bitHexToWord, "0xfffffffe">>([] as unknown as Word4294967294);
+});
+
+test("ZeroPad", () => {
+  type t = Call<ZeroPad, "0x1">;
+  //   ^?
+  assertType<Call<Strings.Length, t>>([] as unknown as 66);
+});
+
+test("ConvertHexToWordArr", () => {
+  type t = Call<
+    // ^?
+    ConvertHexStringToWordArr,
+    "0xecac02b4bf699eb038cae77d716507942cfd9db3845f75ce39222c3e8d444131"
+  >;
+  assertType<t["length"]>([] as unknown as 8);
 });

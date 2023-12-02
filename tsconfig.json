@@ -17,6 +17,7 @@
     "checkJs": false,
     // Interop constraints
     "esModuleInterop": false,
+    "isolatedModules": true,
     "allowSyntheticDefaultImports": false,
     "forceConsistentCasingInFileNames": true,
     "verbatimModuleSyntax": true,
@@ -32,5 +33,5 @@
     // Skip type checking for node modules
     "skipLibCheck": true
   },
-  "include": ["src/"],
+  // "include": ["src/"],
 }

@@ -117,11 +117,68 @@ export interface ConvertHexToNibble extends Fn {
 }
 
 /**
- * Convert {@link Nibble} Array to {@link Word}
+ * Convert {@link Nibble} to {@link Hex}
+ */
+export interface ConvertNibbleToHex extends Fn {
+  return: this["args"] extends [infer nib extends Nibble]
+    ? nib extends _0
+      ? "0"
+      : nib extends _1
+        ? "1"
+        : nib extends _2
+          ? "2"
+          : nib extends _3
+            ? "3"
+            : nib extends _4
+              ? "4"
+              : nib extends _5
+                ? "5"
+                : nib extends _6
+                  ? "6"
+                  : nib extends _7
+                    ? "7"
+                    : nib extends _8
+                      ? "8"
+                      : nib extends _9
+                        ? "9"
+                        : nib extends _a
+                          ? "a"
+                          : nib extends _b
+                            ? "b"
+                            : nib extends _c
+                              ? "c"
+                              : nib extends _d
+                                ? "d"
+                                : nib extends _e
+                                  ? "e"
+                                  : "f"
+    : never;
+}
+
+/**
+ * Convert {@link Nibble} array to {@link Word}
  */
 export interface ConvertNibbleArrToWord extends Fn {
   return: this["args"] extends [infer ns extends Tuple<Nibble, 8>]
     ? Call<Tuples.FlatMap<Identity>, ns>
+    : never;
+}
+
+/**
+ * Convert {@link Word} to {@link Nibble} array
+ */
+export interface ConvertWordToNibbleArr extends Fn {
+  return: this["args"] extends [infer w extends Word]
+    ? [
+        [w[0], w[1], w[2], w[3]],
+        [w[4], w[5], w[6], w[7]],
+        [w[8], w[9], w[10], w[11]],
+        [w[12], w[13], w[14], w[15]],
+        [w[16], w[17], w[18], w[19]],
+        [w[20], w[21], w[22], w[23]],
+        [w[24], w[25], w[26], w[27]],
+        [w[28], w[29], w[30], w[31]],
+      ]
     : never;
 }
 
@@ -328,7 +385,7 @@ export interface WordRotlBH extends Fn {
   return: this["args"] extends [
     infer h extends Word,
     infer l extends Word,
-    infer s extends ShiftIndex,
+    infer s extends BigWordIndex,
   ]
     ? Call<WordShl, l, Call<Numbers.Sub, s, 32>> extends infer a
       ? Call<WordShr, h, Call<Numbers.Sub, 64, s>> extends infer b
@@ -343,7 +400,7 @@ export interface WordRotlBL extends Fn {
   return: this["args"] extends [
     infer h extends Word,
     infer l extends Word,
-    infer s extends ShiftIndex,
+    infer s extends BigWordIndex,
   ]
     ? Call<WordShl, h, Call<Numbers.Sub, s, 32>> extends infer a
       ? Call<WordShr, l, Call<Numbers.Sub, 64, s>> extends infer b
@@ -358,7 +415,7 @@ export interface WordRotlH extends Fn {
   return: this["args"] extends [
     infer h extends Word,
     infer l extends Word,
-    infer s extends ShiftIndex,
+    infer s extends BigWordIndex,
   ]
     ? Call<Numbers.GreaterThan, s, 32> extends true
       ? Call<WordRotlBH, h, l, s>
@@ -371,7 +428,7 @@ export interface WordRotlL extends Fn {
   return: this["args"] extends [
     infer h extends Word,
     infer l extends Word,
-    infer s extends ShiftIndex,
+    infer s extends BigWordIndex,
   ]
     ? Call<Numbers.GreaterThan, s, 32> extends true
       ? Call<WordRotlBL, h, l, s>
@@ -379,7 +436,7 @@ export interface WordRotlL extends Fn {
     : never;
 }
 
-type ShiftIndex =
+export type BigWordIndex =
   | 0
   | 1
   | 2
