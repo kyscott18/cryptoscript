@@ -63,10 +63,7 @@ export interface _Theta extends Fn {
     infer idx0 extends 0 | 2 | 4 | 6 | 8,
     infer idx1 extends 0 | 2 | 4 | 6 | 8,
   ]
-    ? [b[idx0], b[Call<Numbers.Add<idx0, 1>>]] extends [
-        infer b0 extends Word,
-        infer b1 extends Word,
-      ]
+    ? [b[idx0], b[Call<Numbers.Add<idx0, 1>>]] extends [infer b0, infer b1]
       ? [
           Call<WordXOr, Call<WordRotlH, b0, b1, 1>, b[idx1]>,
           Call<WordXOr, Call<WordRotlL, b0, b1, 1>, b[Call<Numbers.Add<idx1, 1>>]>,
@@ -396,7 +393,7 @@ export interface Iota extends Fn {
  * @returns {Tuple<Word,50>}
  */
 export interface _KeccakF extends Fn {
-  return: this["args"] extends [infer s extends S, infer round extends Round[number]]
+  return: this["args"] extends [infer round extends Round[number], infer s extends S]
     ? Call<Theta, s> extends infer a
       ? Call<RhoAndPi, a> extends infer b
         ? Call<Chi, b> extends infer c
@@ -413,42 +410,43 @@ export interface _KeccakF extends Fn {
  * @param {Tuple<Word,50>} s sha3 sponge
  *
  * @returns {Tuple<Word,50>}
- */ interface KeccakF_A extends Fn {
-  return: this["args"] extends [infer s extends S]
-    ? Call<_KeccakF, Call<_KeccakF, Call<_KeccakF, s, 0>, 2>, 4> extends infer a
-      ? Call<_KeccakF, Call<_KeccakF, Call<_KeccakF, a, 6>, 8>, 10> extends infer b
-        ? Call<_KeccakF, Call<_KeccakF, Call<_KeccakF, b, 12>, 14>, 16> extends infer c
-          ? Call<_KeccakF, Call<_KeccakF, Call<_KeccakF, c, 18>, 20>, 22>
-          : never
-        : never
-      : never
-    : never;
-}
-
-export interface KeccakF_B extends Fn {
-  return: this["args"] extends [infer s extends S]
-    ? Call<_KeccakF, Call<_KeccakF, Call<_KeccakF, s, 24>, 26>, 28> extends infer a
-      ? Call<_KeccakF, Call<_KeccakF, Call<_KeccakF, a, 30>, 32>, 34> extends infer b
-        ? Call<_KeccakF, Call<_KeccakF, Call<_KeccakF, b, 36>, 38>, 40> extends infer c
-          ? Call<_KeccakF, Call<_KeccakF, Call<_KeccakF, c, 42>, 44>, 46>
-          : never
-        : never
-      : never
-    : never;
-}
-
-/**
- * KeccakF step for the sha3 hash family
- *
- * @param {Tuple<Word,50>} s sha3 sponge
- *
- * @returns {Tuple<Word,50>}
  */
-
 export interface KeccakF extends Fn {
   return: this["args"] extends [infer s extends S]
-    ? Call<KeccakF_A, s> extends infer _s
-      ? Call<KeccakF_B, _s>
+    ? Pipe<
+        s,
+        [
+          PartialApply<_KeccakF, [0]>,
+          PartialApply<_KeccakF, [2]>,
+          PartialApply<_KeccakF, [4]>,
+          PartialApply<_KeccakF, [6]>,
+          PartialApply<_KeccakF, [8]>,
+          PartialApply<_KeccakF, [10]>,
+          PartialApply<_KeccakF, [12]>,
+          PartialApply<_KeccakF, [14]>,
+          PartialApply<_KeccakF, [16]>,
+          PartialApply<_KeccakF, [18]>,
+          PartialApply<_KeccakF, [20]>,
+          PartialApply<_KeccakF, [22]>,
+        ]
+      > extends infer _s
+      ? Pipe<
+          _s,
+          [
+            PartialApply<_KeccakF, [24]>,
+            PartialApply<_KeccakF, [26]>,
+            PartialApply<_KeccakF, [28]>,
+            PartialApply<_KeccakF, [30]>,
+            PartialApply<_KeccakF, [32]>,
+            PartialApply<_KeccakF, [34]>,
+            PartialApply<_KeccakF, [36]>,
+            PartialApply<_KeccakF, [38]>,
+            PartialApply<_KeccakF, [40]>,
+            PartialApply<_KeccakF, [42]>,
+            PartialApply<_KeccakF, [44]>,
+            PartialApply<_KeccakF, [46]>,
+          ]
+        >
       : never
     : never;
 }

@@ -47,7 +47,7 @@ test("Iota", () => {
 });
 
 test("_KeccakF", () => {
-  type t = Call<_KeccakF, S1, 0>;
+  type t = Call<_KeccakF, 0, S1>;
   //   ^?
   assertType<Tuple<Word, 50>>([] as unknown as t);
 
@@ -108,9 +108,11 @@ test("_KeccakF", () => {
 });
 
 test("KeccakF", () => {
+  // @ts-ignore
   type t = Call<KeccakF, S1>;
   //   ^?
   assertType<Tuple<Word, 50>>([] as unknown as t);
 
   assertType<t[0]>([] as unknown as Call<Convert32bitHexToWord, "0xc664fe32">);
+  assertType<t[49]>([] as unknown as Call<Convert32bitHexToWord, "0x6c1379fc">);
 });
