@@ -10,8 +10,8 @@
     "editor.defaultFormatter": "biomejs.biome"
   },
   "editor.codeActionsOnSave": {
-    "source.organizeImports.biome": true,
-    "quickfix.biome": true
+    "source.organizeImports.biome": "explicit",
+    "quickfix.biome": "explicit"
   },
   "workbench.colorCustomizations": {
     "titleBar.activeBackground": "#000000",

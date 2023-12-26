@@ -13,7 +13,8 @@
     "@biomejs/biome": "latest",
     "bun-types": "latest",
     "hotscript": "latest",
-    "vitest": "beta"
+    "typescript": "next",
+    "vitest": "latest"
   },
   "peerDependencies": {
     "typescript": ">=5"
