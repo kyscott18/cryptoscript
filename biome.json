@@ -1,7 +1,7 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.2.2/schema.json",
   "files": {
-    "ignore": ["**/node_modules", "CHANGELOG.md", "dist"]
+    "ignore": ["**/node_modules", "CHANGELOG.md"]
   },
   "organizeImports": {
     "enabled": true
