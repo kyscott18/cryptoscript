@@ -108,7 +108,6 @@ test("_KeccakF", () => {
 });
 
 test("KeccakF", () => {
-  // @ts-ignore
   type t = Call<KeccakF, S1>;
   //   ^?
   assertType<Tuple<Word, 50>>([] as unknown as t);

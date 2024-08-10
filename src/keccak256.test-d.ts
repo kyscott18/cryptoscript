@@ -2,7 +2,6 @@ import { assertType, test } from "vitest";
 import type { Keccak256 } from "./keccak256.js";
 
 test("Keccak256", () => {
-  // @ts-ignore
   type t = Keccak256<"0x69">;
   //   ^?
 
