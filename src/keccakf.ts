@@ -1,4 +1,4 @@
-import type { Call, Fn, Numbers, PartialApply, Pipe, Tuples } from "hotscript";
+import type { Call, Fn, Numbers } from "hotscript";
 import type { Word, WordAnd, WordNot, WordRotlH, WordRotlL, WordXOr } from "./bits.js";
 import type { Convert32bitHexToWord } from "./parse.js";
 import type { Tuple } from "./tuple.js";
@@ -37,14 +37,18 @@ type Round = [
 /* s[x] ^ s[x + 10] ^ s[x + 20] ^ s[x + 30] ^ s[x + 40] */
 interface ThetaB extends Fn {
   return: this["args"] extends [infer s extends S, infer x extends X]
-    ? Pipe<
-        s[x],
-        [
-          PartialApply<WordXOr, [s[Call<Numbers.Add<10>, x>]]>,
-          PartialApply<WordXOr, [s[Call<Numbers.Add<20>, x>]]>,
-          PartialApply<WordXOr, [s[Call<Numbers.Add<30>, x>]]>,
-          PartialApply<WordXOr, [s[Call<Numbers.Add<40>, x>]]>,
-        ]
+    ? Call<
+        WordXOr,
+        Call<
+          WordXOr,
+          Call<
+            WordXOr,
+            Call<WordXOr, s[x], s[Call<Numbers.Add<10>, x>]>,
+            s[Call<Numbers.Add<20>, x>]
+          >,
+          s[Call<Numbers.Add<30>, x>]
+        >,
+        s[Call<Numbers.Add<40>, x>]
       >
     : never;
 }
@@ -379,7 +383,7 @@ export interface Iota extends Fn {
     ? [
         Call<WordXOr, s[0], IOTA[round]>,
         Call<WordXOr, s[1], IOTA[Call<Numbers.Add, round, 1>]>,
-        ...Call<Tuples.Drop<2>, s>,
+        ...(s extends [Word, Word, ...infer rest extends Word[]] ? rest : never),
       ]
     : never;
 }
@@ -411,42 +415,41 @@ export interface _KeccakF extends Fn {
  *
  * @returns {Tuple<Word,50>}
  */
+type NextRound = {
+  0: 2;
+  2: 4;
+  4: 6;
+  6: 8;
+  8: 10;
+  10: 12;
+  12: 14;
+  14: 16;
+  16: 18;
+  18: 20;
+  20: 22;
+  22: 24;
+  24: 26;
+  26: 28;
+  28: 30;
+  30: 32;
+  32: 34;
+  34: 36;
+  36: 38;
+  38: 40;
+  40: 42;
+  42: 44;
+  44: 46;
+};
+type KeccakRounds<Current extends S, RoundIndex extends Round[number] = 0> = Call<
+  _KeccakF,
+  RoundIndex,
+  Current
+> extends infer Next extends S
+  ? RoundIndex extends 46
+    ? Next
+    : KeccakRounds<Next, NextRound[RoundIndex & keyof NextRound]>
+  : never;
+
 export interface KeccakF extends Fn {
-  return: this["args"] extends [infer s extends S]
-    ? Pipe<
-        s,
-        [
-          PartialApply<_KeccakF, [0]>,
-          PartialApply<_KeccakF, [2]>,
-          PartialApply<_KeccakF, [4]>,
-          PartialApply<_KeccakF, [6]>,
-          PartialApply<_KeccakF, [8]>,
-          PartialApply<_KeccakF, [10]>,
-          PartialApply<_KeccakF, [12]>,
-          PartialApply<_KeccakF, [14]>,
-          PartialApply<_KeccakF, [16]>,
-          PartialApply<_KeccakF, [18]>,
-          PartialApply<_KeccakF, [20]>,
-          PartialApply<_KeccakF, [22]>,
-        ]
-      > extends infer _s
-      ? Pipe<
-          _s,
-          [
-            PartialApply<_KeccakF, [24]>,
-            PartialApply<_KeccakF, [26]>,
-            PartialApply<_KeccakF, [28]>,
-            PartialApply<_KeccakF, [30]>,
-            PartialApply<_KeccakF, [32]>,
-            PartialApply<_KeccakF, [34]>,
-            PartialApply<_KeccakF, [36]>,
-            PartialApply<_KeccakF, [38]>,
-            PartialApply<_KeccakF, [40]>,
-            PartialApply<_KeccakF, [42]>,
-            PartialApply<_KeccakF, [44]>,
-            PartialApply<_KeccakF, [46]>,
-          ]
-        >
-      : never
-    : never;
+  return: this["args"] extends [infer s extends S] ? KeccakRounds<s> : never;
 }

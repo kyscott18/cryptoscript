@@ -16,13 +16,11 @@
     "allowJs": false,
     "checkJs": false,
     // Interop constraints
-    "esModuleInterop": false,
     "isolatedModules": true,
-    "allowSyntheticDefaultImports": false,
     "forceConsistentCasingInFileNames": true,
     "verbatimModuleSyntax": true,
     "importHelpers": true, // This is only used for build validation. Since we do not have `tslib` installed, this will fail if we accidentally make use of anything that'd require injection of helpers.
-    "resolveJsonModule":true,
+    "resolveJsonModule": true,
     "types": ["bun-types"],
     // Language and environment
     "moduleResolution": "NodeNext",
@@ -33,5 +31,5 @@
     // Skip type checking for node modules
     "skipLibCheck": true
   },
-  "include": ["src/"],
+  "include": ["src/"]
 }

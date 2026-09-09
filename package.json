@@ -11,6 +11,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "latest",
+    "@typescript/native-preview": "latest",
     "bun-types": "latest",
     "hotscript": "latest",
     "typescript": "beta",
